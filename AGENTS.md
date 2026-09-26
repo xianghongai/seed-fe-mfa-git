@@ -25,6 +25,7 @@
 - 示例与测试数据只用占位值（`example.invalid`、`/path/to/repo`），不写入真实仓库、账号或内网地址。
 - 版本与变更日志用 Changesets：用户可见的改动运行 `pnpm changeset`，不手改版本号与 `CHANGELOG.md`。
 - 工作流只调用约定的脚本：`format:check`、`lint`、`check-types`、`test`、`release`；没有演示页，不提供 `site:build`。
+- 工作流的 `run-name` 用 `<主功能> <对象>: <引用>`，让 Actions 列表一眼看出每次运行做什么：`CI Check`（检查）、`Release npm`（发布 npm）、`Deploy Pages`（部署演示页）、`Release Extension`（发布 VS Code 扩展）；新增工作流照此命名。
 - 不执行提交、推送、发布；npm 可信发布由维护者在平台上配置。
 
 ## 验证

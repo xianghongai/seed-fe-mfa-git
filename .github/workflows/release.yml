@@ -9,7 +9,7 @@ on:
       - main
 
 name: Release
-run-name: 'Release: ${{ github.ref_name }}'
+run-name: 'Release npm: ${{ github.ref_name }}'
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
