@@ -1,0 +1,3 @@
+minimumReleaseAgeExclude:
+  - '@simple-git/*'
+  - simple-git

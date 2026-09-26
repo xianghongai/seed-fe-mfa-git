@@ -1,0 +1,70 @@
+{
+  "name": "@seed-fe/mfa-git",
+  "version": "0.1.0",
+  "description": "Git operations and release naming rules for MFA (seed-fe-mfa) workspaces: branch status, fast-forward pull, push, tags with rollback, clone, tag checkout and release version calculation. Authentication stays with the developer's own Git setup.",
+  "keywords": [
+    "git",
+    "mfa",
+    "micro-frontend",
+    "release",
+    "seed-fe",
+    "semver",
+    "tag"
+  ],
+  "homepage": "https://github.com/xianghongai/seed-fe-mfa-git#readme",
+  "bugs": {
+    "url": "https://github.com/xianghongai/seed-fe-mfa-git/issues"
+  },
+  "license": "MIT",
+  "author": "Nicholas Hsiang",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xianghongai/seed-fe-mfa-git.git"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "changeset": "changeset",
+    "check-types": "tsc --noEmit",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint src test",
+    "prepack": "pnpm run check-types && pnpm run lint && pnpm run test && pnpm run build",
+    "release": "changeset publish",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "simple-git": "^4.0.1"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "@types/node": "^26.6.2",
+    "oxfmt": "^0.65.0",
+    "oxlint": "^1.85.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@11.25.0"
+}
