@@ -94,3 +94,26 @@ export const tagExists = async (options: GitOptions & { name: string }): Promise
 /** Number of tracked files with uncommitted changes. */
 export const worktreeChanges = async (options: GitOptions): Promise<number> =>
   lines(await createGit(options).run(['status', '--porcelain', '--untracked-files=no'])).length;
+
+/**
+ * Files with changes in the worktree or the index: modified, added, deleted, renamed and untracked (not ignored).
+ * Paths are relative to the repository root; a rename gives its new path.
+ */
+export const changedFiles = async (options: GitOptions): Promise<string[]> => {
+  // -z keeps paths with spaces or non-ASCII characters unquoted; a rename is followed by its original path.
+  const entries = (await createGit(options).raw(['status', '--porcelain=v1', '-z', '--untracked-files=all'])).split(
+    '\0'
+  );
+  const files: string[] = [];
+  for (let index = 0; index < entries.length; index += 1) {
+    const entry = entries[index]!;
+    if (entry.length < 4) {
+      continue;
+    }
+    files.push(entry.slice(3));
+    if (entry[0] === 'R' || entry[0] === 'C') {
+      index += 1;
+    }
+  }
+  return files;
+};

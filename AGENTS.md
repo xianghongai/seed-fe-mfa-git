@@ -15,7 +15,8 @@
 - `src/git.ts`：`createGit` 创建 simple-git 客户端（环境、取消、输出回调），提供 `run` 与 `probe`。
 - `src/repository.ts`：只读查询。
 - `src/sync.ts`：`branchStatus`、`pullBranch`、`pushBranch`。
-- `src/tag.ts`：`createTag`（附注、覆盖、推送与失败回滚）。
+- `src/tag.ts`：`createTag`（附注、覆盖、推送与失败回滚；带 `branch` 时分支与 Tag 原子推送）。
+- `src/commit.ts`：`commit`，只提交指定文件（`--only`），保留其他改动。
 - `src/clone.ts`：`clone`、`checkoutTag`。
 - `src/release-version.ts`：发布版本的解析、格式化、产品线、同线比较与候选计算（下一迭代、进入下一阶段）。测试按文档的版本对象与场景逐项覆盖，并校验每个版本都是合法的 Docker 镜像 Tag。
 

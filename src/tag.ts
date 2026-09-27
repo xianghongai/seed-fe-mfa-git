@@ -11,8 +11,11 @@ export interface CreateTagOptions extends GitOptions {
   message?: string | undefined;
   /** Overwrites an existing tag of the same name, locally and on the remote. */
   force?: boolean | undefined;
-  /** Pushes the tag to this remote after creating it. */
-  push?: { remote: string } | undefined;
+  /**
+   * Pushes the tag to this remote after creating it. With `branch`, the branch is pushed in the same atomic push,
+   * never forced: either both reach the remote or neither does.
+   */
+  push?: { remote: string; branch?: string | undefined } | undefined;
 }
 
 export interface CreateTagResult {
@@ -37,7 +40,15 @@ export const createTag = async (options: CreateTagOptions): Promise<CreateTagRes
   await git.run(['tag', ...(previous ? ['-f'] : []), ...annotation, '--', options.name, options.commit]);
   if (options.push) {
     try {
-      await git.run(['push', '--', options.push.remote, `${previous ? '+' : ''}${ref}`]);
+      const branch = options.push.branch ? [`refs/heads/${options.push.branch}:refs/heads/${options.push.branch}`] : [];
+      await git.run([
+        'push',
+        ...(branch.length > 0 ? ['--atomic'] : []),
+        '--',
+        options.push.remote,
+        ...branch,
+        `${previous ? '+' : ''}${ref}`,
+      ]);
     } catch (error) {
       await git.run(previous ? ['update-ref', ref, previous] : ['tag', '-d', '--', options.name]);
       throw error;

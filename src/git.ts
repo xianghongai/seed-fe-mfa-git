@@ -19,6 +19,8 @@ export interface GitOptions {
 export interface Git {
   /** Runs a command and returns its trimmed stdout; rejects when git exits with an error. */
   run(args: string[]): Promise<string>;
+  /** Like `run`, but keeps stdout exactly as printed, for formats where leading spaces matter (`--porcelain`). */
+  raw(args: string[]): Promise<string>;
   /** Runs a command for probing: any failure other than cancellation resolves to `undefined`. */
   probe(args: string[]): Promise<string | undefined>;
 }
@@ -36,7 +38,6 @@ export const createGit = (options: GitOptions): Git => {
   const env = { ...process.env, GIT_TERMINAL_PROMPT: '0', ...options.env };
   const client: SimpleGit = simpleGit({
     baseDir: options.cwd,
-    trimmed: true,
     ...(options.signal ? { abort: options.signal } : {}),
     // Commands and their arguments are fixed by this package; the environment and configuration are the
     // developer's own (SSH command, askpass, credential helper, proxy, even an ordinary PAGER or GIT_EDITOR).
@@ -62,9 +63,11 @@ export const createGit = (options: GitOptions): Git => {
         stderr.on('data', (chunk: Buffer) => options.onOutput?.(chunk.toString()));
       }
     });
-  const run = (args: string[]) => client.raw(args);
+  const raw = (args: string[]) => client.raw(args);
+  const run = async (args: string[]) => (await raw(args)).trim();
   return {
     run,
+    raw,
     probe: async (args) => {
       try {
         return await run(args);

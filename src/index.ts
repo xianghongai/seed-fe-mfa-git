@@ -1,5 +1,6 @@
 export { createGit, type Git, type GitOptions } from './git.js';
 export {
+  changedFiles,
   commitInfo,
   currentBranch,
   isRepositoryRoot,
@@ -24,6 +25,7 @@ export {
   type BranchState,
   type BranchStatus,
 } from './sync.js';
+export { commit, type CommitOptions } from './commit.js';
 export { createTag, type CreateTagOptions, type CreateTagResult } from './tag.js';
 export { checkoutTag, clone, type CheckoutTagOptions, type CloneOptions } from './clone.js';
 export {

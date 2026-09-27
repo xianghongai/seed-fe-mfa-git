@@ -61,7 +61,9 @@ await createTag({
 });
 ```
 
-The message is kept as written, including lines starting with `#`. When the push fails, the local tag is removed, or restored when it was overwritten.
+The message is kept as written, including lines starting with `#`. When the push fails, the local tag is removed, or restored when it was overwritten. With `push: { remote, branch }`, the branch is pushed in the same atomic push (never forced), so a release commit and its tag reach the remote together or not at all.
+
+`commit({ cwd, message, paths })` commits only the given paths, new and deleted ones included, leaving every other staged or unstaged change as it was, and returns the new commit SHA. `changedFiles({ cwd })` lists the files with changes (modified, new, deleted, renamed; ignored files left out).
 
 ### Sources
 
