@@ -2,6 +2,16 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 0.1.1
+
+### Patch Changes
+
+- [`4ce8626`](https://github.com/xianghongai/seed-fe-mfa-git/commit/4ce86266011e26e97725318147d0f82cd9ec4b73) Thanks [@xianghongai](https://github.com/xianghongai)! - List and commit changed files, and push a branch together with its tag.
+
+  - `changedFiles({ cwd })` lists modified, new, deleted and renamed files, leaving out ignored ones.
+  - `commit({ cwd, message, paths })` commits only the given paths, new and deleted ones included, leaves every other staged or unstaged change as it was, keeps the message as written and returns the new commit SHA.
+  - `createTag({ push: { remote, branch } })` pushes the branch and the tag in one atomic push, never forcing the branch: either both reach the remote or neither does, and the local tag is rolled back on failure.
+
 ## 0.1.0
 
 - Repository questions: root, current branch, remote (upstream, then the only remote; never assumes origin), commits and tags.
